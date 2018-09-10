@@ -10,7 +10,7 @@ ConfigPage {
 	showAppletVersion: true
 
 	ConfigSection {
-		label: i18n("Size")
+		title: i18n("Size")
 
 		RowLayout{
 			ConfigSpinBox {
@@ -30,7 +30,7 @@ ConfigPage {
 
 	
 	ConfigSection {
-		label: i18n("Options")
+		title: i18n("Options")
 
 		ConfigCheckBox {
 			configKey: "showInPopup"
