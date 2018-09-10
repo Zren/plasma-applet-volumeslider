@@ -42,4 +42,21 @@ ConfigPage {
 			text: i18n("Volume Feedback: Play popping noise when changing the volume.")
 		}
 	}
+
+	ConfigSection {
+		ConfigSpinBox {
+			id: volumeUpDownSteps
+			configKey: "volumeUpDownSteps"
+			minimumValue: 1
+			before: i18n("Volume Up/Down Steps:")
+			
+			property int oneStep: 1
+			after: i18n("One step = %1%", oneStep)
+			Component.onCompleted: {
+				// If we bind to "value" in the property, it will still be the slider default of 0,
+				// causing a 1/0 error. This breaks the binding. So we bind after value updates.
+				oneStep = Qt.binding(function() { return Math.round(1/volumeUpDownSteps.value * 100) })
+			}
+		}
+	}
 }

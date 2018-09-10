@@ -18,6 +18,9 @@
     <entry name="volumeChangeFeedback" type="bool">
       <default>true</default>
     </entry>
+    <entry name="volumeUpDownSteps" type="int">
+      <default>15</default>
+    </entry>
   </group>
 
 </kcfg>

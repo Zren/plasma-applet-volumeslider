@@ -4,6 +4,8 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
+import org.kde.kquickcontrolsaddons 2.0 as KAddons
+
 import org.kde.plasma.private.volume 0.1
 
 import "../code/icon.js" as Icon
@@ -132,10 +134,25 @@ Item {
 			}
 
 			// Block wheel events
-			MouseArea {
+			KAddons.MouseEventListener {
 				anchors.fill: parent
-				acceptedButtons: Qt.NoButton
-				// onWheel: wheel.accepted = true
+				acceptedButtons: Qt.MidButton
+
+				property int wheelDelta: 0
+				onWheelMoved: {
+					wheelDelta += wheel.delta
+				
+					// Magic number 120 for common "one click"
+					// See: http://qt-project.org/doc/qt-5/qml-qtquick-wheelevent.html#angleDelta-prop
+					while (wheelDelta >= 120) {
+						wheelDelta -= 120
+						PulseObjectCommands.increaseVolume(slider.pulseObject)
+					}
+					while (wheelDelta <= -120) {
+						wheelDelta += 120
+						PulseObjectCommands.decreaseVolume(slider.pulseObject)
+					}
+				}
 			}
 
 			Component.onCompleted: {
