@@ -1,3 +1,7 @@
+## v3 - September 10 2018
+
+* Configurable volume % change when scrolling.
+
 ## v2 - November 25 2017
 
 * Mention you need to relog when switching to popup mode.
