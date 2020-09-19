@@ -46,6 +46,32 @@ Item {
 		property var pulseObject: sinkModel.selectedSink
 		property int volumePercentage: Math.round(pulseObject.volume / 65536 * 100)
 		text: i18n("%1%", volumePercentage)
+
+		MouseArea {
+			id: mouseArea
+			anchors.fill: parent
+			acceptedButtons: Qt.LeftButton | Qt.MiddleButton
+			hoverEnabled: true
+
+			property bool wasExpanded: false
+			onPressed: wasExpanded = plasmoid.expanded
+			onClicked: plasmoid.expanded = !wasExpanded
+
+			onWheel: {
+				var wheelDelta = wheel.angleDelta.y || wheel.angleDelta.x
+
+				// Magic number 120 for common "one click"
+				// See: http://qt-project.org/doc/qt-5/qml-qtquick-wheelevent.html#angleDelta-prop
+				while (wheelDelta >= 120) {
+					wheelDelta -= 120
+					PulseObjectCommands.increaseVolume(sinkModel.selectedSink)
+				}
+				while (wheelDelta <= -120) {
+					wheelDelta += 120
+					PulseObjectCommands.decreaseVolume(sinkModel.selectedSink)
+				}
+			}
+		}
 	}
 
 	Plasmoid.fullRepresentation: Item {
